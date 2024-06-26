@@ -7,17 +7,20 @@ networks:
 services:
   react_app:
     build:
-      context: react_app
-      target: development
+      context: ./react_app
+      dockerfile: Dockerfile
+    
+    container_name: container_r
+
     networks:
       - bridge
     links:
       - mysql
     ports:
-      - "3000:3000"
+      - "3001:3000"
     volumes:
-      - ./react_app/src:/code/src
-      - /code/node_modules
+      - ./react_app:/app
+      - /app/node_modules
     environment:
       - TZ=Europe/Moscow
       - MYSQL_ROOT_PASSWORD=rootPassword
@@ -29,6 +32,7 @@ services:
 
   mysql:
     image: mysql:8.0
+    container_name: container_db
     networks:
       - bridge
     ports:
